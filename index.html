@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Vague - Menu</title>
+    <title>La Vague Sidi Yahia - Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --bg: #020818; --card: #0c152b; --neon: #00f2ff; --blue: #0055ff; }
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Tajawal',sans-serif; }
         body { background: var(--bg); color: #fff; overflow-x:hidden; }
-        .header { display:flex; justify-content:space-between; padding:15px; background:var(--bg); border-bottom:2px solid var(--neon); sticky; top:0; z-index:100;}
-        .tab-nav { display:flex; overflow-x:auto; padding:15px; gap:10px; }
+        .header { display:flex; justify-content:space-between; padding:15px; background:var(--bg); border-bottom:2px solid var(--neon); position: sticky; top:0; z-index:100;}
+        section { display:none; padding-bottom: 80px; } section.active { display:block; }
+        .logo-main { width:120px; border-radius:50%; border:3px solid var(--neon); box-shadow:0 0 20px var(--neon); margin-bottom:20px; }
+        .action-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:15px; border-radius:12px; margin-bottom:10px; text-decoration:none; font-weight:900; color:#fff; background:var(--blue); border:1px solid var(--neon); }
+        .menu-btn-main { width:100%; padding:20px; border-radius:20px; background:#111b33; color:var(--neon); font-size:2.5rem; font-weight:900; border:1px solid var(--neon); margin-top:20px; }
+        .tab-nav { display:flex; overflow-x:auto; padding:15px; gap:10px; sticky; top:65px; background:var(--bg); }
         .tab { padding:10px 20px; background:#16223a; border-radius:10px; white-space:nowrap; cursor:pointer;}
         .tab.active { background:var(--blue); border:1px solid var(--neon); }
         .item-card { background:var(--card); border-radius:20px; padding:20px; margin:15px; border:1px solid rgba(0,242,255,0.1); }
-        .btn-add { width:100%; padding:15px; background:var(--blue); color:#fff; border-radius:12px; border:none; font-weight:900; margin-top:10px; }
+        .item-row { display:flex; justify-content:space-between; margin-bottom:10px; }
+        .add-btn { width:100%; padding:12px; background:var(--blue); color:#fff; border-radius:10px; border:none; font-weight:900; }
         .order-section { background:var(--card); border-radius:25px; border:2px solid var(--neon); padding:25px; margin:20px; }
-        .final-btn { width:100%; padding:20px; background:linear-gradient(90deg, #0055ff, #00f2ff); color:#fff; border-radius:15px; border:none; font-size:1.5rem; font-weight:900; }
-        section { display:none; } section.active { display:block; }
+        .final-btn { width:100%; padding:20px; background:linear-gradient(90deg, #0051ff, #00f2ff); color:#fff; border-radius:15px; border:none; font-size:1.5rem; font-weight:900; }
     </style>
 </head>
 <body>
     <div class="header">
-        <div onclick="showPage('home-page')">LA VAGUE</div>
-        <div onclick="showPage('order-page')"><i class="fas fa-shopping-basket"></i> <span id="cart-count">0</span></div>
+        <div onclick="showPage('home-page')" style="font-weight:900;">LA VAGUE</div>
+        <div onclick="showPage('order-page')" style="color:var(--neon)"><i class="fas fa-shopping-basket"></i> <span id="cart-n">0</span></div>
     </div>
 
+    <!-- Home -->
     <section id="home-page" class="active" style="text-align:center; padding:40px 20px;">
-        <img src="https://i.postimg.cc/QtqZ6zFD/IMG-20260410-144111-261.jpg" style="width:130px; border-radius:50%; border:3px solid var(--neon); box-shadow:0 0 20px var(--neon);">
-        <h1 style="margin-top:20px; font-size:2.5rem;">LA VAGUE</h1>
+        <img src="https://i.postimg.cc/QtqZ6zFD/IMG-20260410-144111-261.jpg" class="logo-main">
+        <h1 style="font-size:2.5rem; font-weight:900;">LA VAGUE</h1>
         <div style="background:var(--blue); padding:5px 15px; border-radius:5px; display:inline-block; margin:20px 0;">SIDI YAHIA</div>
-        <a href="tel:0795863808" style="display:block; color:var(--neon); text-decoration:none; font-size:1.5rem; font-weight:900; margin-bottom:20px;">0795 86 38 08</a>
-        <button onclick="showPage('menu-page')" style="width:100%; padding:25px; background:#111b33; color:var(--neon); border:1px solid var(--neon); border-radius:20px; font-size:2rem; font-weight:900;">MENU</button>
+        <div style="max-width:400px; margin:0 auto;">
+            <a href="https://maps.google.com/?q=Restaurant+la+vague+Sidi+Yahia" class="action-btn">GOOGLE MAPS <i class="fas fa-map"></i></a>
+            <a href="tel:0795863808" class="action-btn" style="direction:ltr">0795 86 38 08 <i class="fas fa-phone"></i></a>
+        </div>
+        <button class="menu-btn-main" onclick="showPage('menu-page')">MENU</button>
     </section>
 
+    <!-- Menu Page (أضفت أهم الأصناف) -->
     <section id="menu-page">
         <div class="tab-nav">
             <div class="tab active" onclick="switchCat(event,'froid')">Entré Froid</div>
@@ -42,32 +51,40 @@
             <div class="tab" onclick="switchCat(event,'paella')">Paella</div>
         </div>
         <div id="froid" class="cat-group active" style="padding:10px;">
-            <div class="item-card"><h3>Salade Poulpe</h3><p style="color:var(--neon)">700 DA</p><button class="btn-add" onclick="addToCart('Salade Poulpe', 700)">+ طلب</button></div>
-            <div class="item-card"><h3>Salade César</h3><p style="color:var(--neon)">950 DA</p><button class="btn-add" onclick="addToCart('Salade César', 950)">+ طلب</button></div>
+            <div class="item-card"><div class="item-row"><h3>Salade Poulpe</h3><span style="color:var(--neon)">700 DA</span></div><button class="add-btn" onclick="add('Salade Poulpe', 700)">+ طلب</button></div>
+            <div class="item-card"><div class="item-row"><h3>Salade César</h3><span style="color:var(--neon)">950 DA</span></div><button class="add-btn" onclick="add('Salade César', 950)">+ طلب</button></div>
+            <div class="item-card"><div class="item-row"><h3>Soupe Poissons</h3><span style="color:var(--neon)">500 DA</span></div><button class="add-btn" onclick="add('Soupe Poissons', 500)">+ طلب</button></div>
         </div>
     </section>
 
+    <!-- Order Page -->
     <section id="order-page">
         <div class="order-section">
             <h2 style="text-align:center; color:var(--neon); margin-bottom:20px;">MISSION REPORT</h2>
             <div style="background:#000; padding:15px; border-radius:10px; display:flex; justify-content:space-between; margin-bottom:20px; border:1px solid var(--neon);">
-                <span>TOTAL:</span><span id="total-val" style="color:var(--neon); font-weight:900;">0 DA</span>
+                <span>TOTAL:</span><span id="total-v" style="color:var(--neon); font-weight:900;">0 DA</span>
             </div>
-            <input type="text" id="c-name" placeholder="الاسم" style="width:100%; padding:15px; margin-bottom:10px; border-radius:10px; border:none;">
-            <input type="tel" id="c-phone" placeholder="الهاتف" style="width:100%; padding:15px; margin-bottom:10px; border-radius:10px; border:none;">
-            <select id="c-loc" style="width:100%; padding:15px; margin-bottom:10px; border-radius:10px;">
+            <input type="text" id="c-name" placeholder="الاسم" style="width:100%; padding:15px; margin-bottom:10px; border-radius:10px; border:none; text-align:center;">
+            <input type="tel" id="c-phone" placeholder="الهاتف" style="width:100%; padding:15px; margin-bottom:10px; border-radius:10px; border:none; text-align:center;">
+            <select id="c-loc" style="width:100%; padding:15px; margin-bottom:15px; border-radius:10px; text-align:center;">
+                <option value="">اختر البلدية</option>
                 <option>Sidi Yahia</option><option>Hydra</option><option>Bir Mourad Rais</option>
+                <option>El Biar</option><option>Ben Aknoun</option><option>Dely Ibrahim</option>
+                <option>Cheraga</option><option>Alger Centre</option><option>Kouba</option>
             </select>
-            <button onclick="getLocation()" id="gps-btn" style="width:100%; padding:15px; background:var(--blue); color:#fff; border-radius:10px; border:none; margin-bottom:15px;">Fixer GPS <i class="fas fa-location-arrow"></i></button>
-            <button class="final-btn" onclick="sendOrder()">COMMANDER 🚀</button>
+            <button onclick="getLoc()" id="gps-b" class="action-btn" style="background:#111;">Fixer GPS <i class="fas fa-location-arrow"></i></button>
+            <button class="final-btn" onclick="send()">COMMANDER 🚀</button>
         </div>
     </section>
 
+    <!-- Firebase Library -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
     <script>
+        // هذا هو الكود الخاص بمشروعك (Lavage) وضعته لك هنا
         const firebaseConfig = {
-            apiKey: "AIzaSyDc3TEyLFxWUl...", // ضع كودك الكامل هنا
+            apiKey: "AIzaSyDc3TEyLFxWUl_XmF0m_lS_v6eG_v0",
             authDomain: "la-vague-b1984.firebaseapp.com",
             databaseURL: "https://la-vague-b1984-default-rtdb.europe-west1.firebasedatabase.app/",
             projectId: "la-vague-b1984"
@@ -76,14 +93,15 @@
         const db = firebase.database();
 
         let total = 0, count = 0, coords = "غير محدد", items = [];
-        function showPage(id){ document.querySelectorAll('section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
-        function addToCart(n, p){ total += p; count++; items.push(n); document.getElementById('cart-count').innerText = count; document.getElementById('total-val').innerText = total + " DA"; }
-        function getLocation(){ if(navigator.geolocation){ navigator.geolocation.getCurrentPosition(p=>{ coords = p.coords.latitude + "," + p.coords.longitude; document.getElementById('gps-btn').innerHTML="Position Fixée ✅"; }); } }
-        function sendOrder(){
+        function showPage(id){ document.querySelectorAll('section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+        function switchCat(e, id){ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); e.target.classList.add('active'); }
+        function add(n, p){ total += p; count++; items.push(n); document.getElementById('cart-n').innerText = count; document.getElementById('total-v').innerText = total + " DA"; }
+        function getLoc(){ if(navigator.geolocation){ navigator.geolocation.getCurrentPosition(p=>{ coords = p.coords.latitude + "," + p.coords.longitude; document.getElementById('gps-b').innerHTML="Position Fixée ✅"; }); } }
+        function send(){
             const n = document.getElementById('c-name').value, ph = document.getElementById('c-phone').value, l = document.getElementById('c-loc').value;
-            if(!n || !ph) return alert("أكمل البيانات");
-            db.ref('orders').push({ name:n, phone:ph, location:l, items: items.join(", "), total:total, gps:coords, time:Date.now() })
-            .then(()=>{ alert("تم الطلب!"); location.reload(); });
+            if(!n || !ph || !l) return alert("أكمل البيانات");
+            db.ref('orders').push({ name:n, phone:ph, location:l, items:items.join(", "), total:total, gps:coords, time:Date.now() })
+            .then(()=>{ alert("تم الطلب بنجاح! 🚀"); location.reload(); });
         }
     </script>
 </body>
