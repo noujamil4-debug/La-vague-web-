@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background:#050a18; color:#fff; font-family:'Tajawal',sans-serif; padding:20px; }
+        .ticket { background:#121b2e; border-radius:20px; padding:20px; border-left:8px solid #00f2ff; margin-bottom:20px; }
+        .btn-done { width:100%; padding:15px; background:#22c55e; color:#fff; border:none; border-radius:10px; font-weight:900; }
+        .gps-btn { display:block; padding:10px; background:#0051ff; color:#fff; text-decoration:none; text-align:center; border-radius:10px; margin:10px 0; }
+    </style>
+</head>
+<body>
+    <h1 style="color:#00f2ff; text-align:center; margin-bottom:30px;">LA VAGUE STAFF</h1>
+    <audio id="bell"><source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+    <div id="orders"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        const firebaseConfig = { /* نفس إعداداتك هنا */ };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+        const bell = document.getElementById('bell');
+
+        db.ref('orders').on('child_added', s => {
+            const d = s.val();
+            bell.play(); // جرس عند وصول طلب
+            const html = `<div class="ticket" id="${s.key}">
+                <h2>الزبون: ${d.name}</h2>
+                <p>الهاتف: ${d.phone}</p>
+                <p>المنطقة: ${d.location}</p>
+                <div style="background:rgba(0,0,0,0.3); padding:10px; margin:10px 0;">${d.items}</div>
+                <h3 style="color:#00f2ff">المجموع: ${d.total} DA</h3>
+                <a href="https://www.google.com/maps?q=${d.gps}" target="_blank" class="gps-btn">فتح الموقع GPS</a>
+                <button class="btn-done" onclick="document.getElementById('${s.key}').remove(); firebase.database().ref('orders/${s.key}').remove()">تم التجهيز ✓</button>
+            </div>`;
+            document.getElementById('orders').insertAdjacentHTML('afterbegin', html);
+        });
+    </script>
+</body>
+</html>
