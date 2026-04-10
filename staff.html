@@ -3,43 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Control</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>La Vague Staff</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { background:#050a18; color:#fff; font-family:'Tajawal',sans-serif; padding:20px; }
-        .ticket { background:#121b2e; border-radius:20px; padding:20px; border-left:8px solid #00f2ff; margin-bottom:20px; }
-        .btn-done { width:100%; padding:15px; background:#22c55e; color:#fff; border:none; border-radius:10px; font-weight:900; }
-        .gps-btn { display:block; padding:10px; background:#0051ff; color:#fff; text-decoration:none; text-align:center; border-radius:10px; margin:10px 0; }
+        .header { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #00f2ff; padding-bottom:15px; margin-bottom:20px; }
+        .ticket { background:#121b2e; border-radius:20px; padding:25px; border-left:8px solid #00f2ff; margin-bottom:25px; position:relative; }
+        .gps-btn { display:block; padding:12px; background:#0051ff; color:#fff; text-decoration:none; text-align:center; border-radius:10px; margin:15px 0; font-weight:900; border:1px solid #00f2ff;}
+        .done-btn { width:100%; padding:15px; background:#22c55e; color:#fff; border:none; border-radius:12px; font-weight:900; font-size:1.3rem; cursor:pointer; }
     </style>
 </head>
 <body>
-    <h1 style="color:#00f2ff; text-align:center; margin-bottom:30px;">LA VAGUE STAFF</h1>
+    <div class="header">
+        <h1 style="color:#00f2ff; font-weight:900;">LA VAGUE <span style="color:#ff3b3b">STAFF</span></h1>
+        <button onclick="playBell(1)" style="background:#f1c40f; padding:10px; border-radius:10px; border:none; font-weight:900;">🔔 جرس</button>
+    </div>
+
     <audio id="bell"><source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
-    <div id="orders"></div>
+    <div id="orders-list"></div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script>
-        const firebaseConfig = { /* نفس إعداداتك هنا */ };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDc3TEyLFxWUl_XmF0m_lS_v6eG_v0",
+            authDomain: "la-vague-b1984.firebaseapp.com",
+            databaseURL: "https://la-vague-b1984-default-rtdb.europe-west1.firebasedatabase.app/",
+            projectId: "la-vague-b1984"
+        };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
         const bell = document.getElementById('bell');
 
+        function playBell(t){ let c=0; const r=()=>{ if(c<t){ bell.play(); c++; } }; bell.onended=()=>setTimeout(r,500); r(); }
+
         db.ref('orders').on('child_added', s => {
             const d = s.val();
-            bell.play(); // جرس عند وصول طلب
-            const html = `<div class="ticket" id="${s.key}">
-                <h2>الزبون: ${d.name}</h2>
-                <p>الهاتف: ${d.phone}</p>
-                <p>المنطقة: ${d.location}</p>
-                <div style="background:rgba(0,0,0,0.3); padding:10px; margin:10px 0;">${d.items}</div>
-                <h3 style="color:#00f2ff">المجموع: ${d.total} DA</h3>
-                <a href="https://www.google.com/maps?q=${d.gps}" target="_blank" class="gps-btn">فتح الموقع GPS</a>
-                <button class="btn-done" onclick="document.getElementById('${s.key}').remove(); firebase.database().ref('orders/${s.key}').remove()">تم التجهيز ✓</button>
-            </div>`;
-            document.getElementById('orders').insertAdjacentHTML('afterbegin', html);
+            playBell(3); // يرن 3 مرات للطلب الجديد
+            const html = `
+                <div class="ticket" id="${s.key}">
+                    <h2 style="color:#00f2ff">زبون: ${d.name}</h2>
+                    <p style="font-size:1.3rem; margin:10px 0;">الهاتف: <span style="direction:ltr; display:inline-block">${d.phone}</span></p>
+                    <p>المنطقة: ${d.location}</p>
+                    <div style="background:rgba(0,0,0,0.3); padding:15px; margin:15px 0; border-radius:10px; border:1px dashed #00f2ff">الطلبات: ${d.items}</div>
+                    <h3 style="color:#00f2ff; margin-bottom:15px; font-size:1.8rem;">المجموع: ${d.total} DA</h3>
+                    <a href="https://www.google.com/maps?q=${d.gps}" target="_blank" class="gps-btn">فتح الموقع GPS <i class="fas fa-location-arrow"></i></a>
+                    <button class="done-btn" onclick="finish('${s.key}')">تم التجهيز ✓</button>
+                </div>`;
+            document.getElementById('orders-list').insertAdjacentHTML('afterbegin', html);
         });
+
+        function finish(id) {
+            db.ref('orders/'+id).remove();
+            document.getElementById(id).remove();
+        }
     </script>
 </body>
 </html>
