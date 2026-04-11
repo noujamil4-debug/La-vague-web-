@@ -3,148 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Vague - Menu Complet</title>
+    <title>La Vague - Luxury Restaurant</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --navy: #050a18; --gold: #c5a059; --white: #ffffff; --card-bg: #0c1529; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        :root { --navy: #0a1128; --gold: #c5a059; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: var(--navy); color: var(--white); overflow-x: hidden; }
 
-        /* Instagram Fix Overlay */
-        #ig-warning { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; padding: 40px; text-align: center; }
-        .ig-box { border: 2px solid var(--gold); padding: 30px; border-radius: 20px; background: var(--card-bg); margin-top: 50px; }
-        
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; background: rgba(5, 10, 24, 0.95); z-index: 1000; border-bottom: 1px solid rgba(197, 160, 89, 0.2); }
-        .back-nav { font-size: 1.4rem; color: var(--gold); cursor: pointer; visibility: hidden; }
-        .logo-box { width: 45px; height: 45px; border: 1px solid var(--gold); border-radius: 50%; padding: 2px; }
-        .cart-status { background: var(--gold); color: var(--navy); padding: 8px 15px; border-radius: 5px; font-weight: 800; font-size: 0.75rem; position: relative; cursor: pointer; }
-        .badge { position: absolute; top: -8px; right: -8px; background: #000; color: #fff; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+        /* Header & Nav */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; position: sticky; top: 0; background: var(--navy); z-index: 1000; border-bottom: 1px solid rgba(197, 160, 89, 0.3); }
+        .back-btn { font-size: 1.5rem; color: var(--gold); cursor: pointer; visibility: hidden; }
+        .logo-nav { width: 50px; height: 50px; border: 1px solid var(--gold); border-radius: 50%; padding: 3px; }
+        .cart-btn { background: var(--gold); color: var(--navy); padding: 8px 15px; border-radius: 5px; font-weight: 800; position: relative; cursor: pointer; font-size: 0.8rem; }
+        .cart-count { position: absolute; top: -10px; right: -10px; background: #000; color: #fff; width: 22px; height: 22px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; }
 
-        section { display: none; min-height: 100vh; padding-bottom: 80px; }
-        section.active { display: block; animation: slideUp 0.4s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        section { display: none; min-height: 100vh; padding-bottom: 50px; }
+        section.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        #home { text-align: center; padding: 60px 20px; background: radial-gradient(circle at center, #111e3d 0%, #050a18 100%); }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--gold); line-height: 1.1; margin: 10px 0; }
-        
-        .action-btn { display: block; width: 100%; max-width: 280px; margin: 15px auto; padding: 18px; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; border: none; font-size: 0.9rem; }
-        .btn-gold { background: var(--gold); color: var(--navy); }
-        .btn-outline { border: 1px solid var(--gold) !important; color: var(--gold); background: transparent; }
+        /* Luxury Home */
+        #home { text-align: center; padding: 80px 20px; background: radial-gradient(circle, #1a2a4d 0%, #0a1128 100%); }
+        .hero-title { font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--gold); margin: 10px 0; }
+        .hero-sub { font-size: 0.8rem; color: #aaa; letter-spacing: 2px; margin-bottom: 40px; }
+        .contact-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(197,160,89,0.2); border-radius: 15px; padding: 20px; margin-bottom: 30px; max-width: 320px; margin-inline: auto; }
+        .contact-card a { display: block; color: #fff; text-decoration: none; margin: 10px 0; font-weight: 600; font-size: 1.1rem; }
+        .contact-card i { color: var(--gold); margin-right: 10px; }
+        .main-btn { display: block; width: 100%; max-width: 280px; margin: 15px auto; padding: 18px; border-radius: 5px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+        .btn-gold { background: var(--gold); color: var(--navy); border: none; }
+        .btn-outline { border: 1px solid var(--gold); color: var(--gold); background: transparent; }
 
-        .cat-bar { display: flex; overflow-x: auto; padding: 15px; gap: 10px; sticky; top: 75px; background: var(--navy); z-index: 999; scrollbar-width: none; }
-        .chip { padding: 10px 22px; border-radius: 50px; background: #111; color: #666; white-space: nowrap; font-size: 0.65rem; font-weight: 800; cursor: pointer; border: 1px solid #222; }
-        .chip.active { background: var(--gold); color: var(--navy); }
+        /* Chips Tabs */
+        .category-chips { display: flex; overflow-x: auto; padding: 15px; gap: 10px; sticky; top: 80px; background: var(--navy); z-index: 999; scrollbar-width: none; }
+        .chip { padding: 10px 25px; border-radius: 50px; background: #111; color: #777; white-space: nowrap; font-size: 0.7rem; font-weight: 800; cursor: pointer; border: 1px solid #222; }
+        .chip.active { background: #444; color: #fff; border-color: #666; }
 
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; }
-        .card { background: var(--white); border-radius: 12px; overflow: hidden; color: var(--navy); text-align: center; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .card-top { background: var(--navy); color: var(--white); padding: 25px 10px; min-height: 100px; display: flex; align-items: center; justify-content: center; border-bottom: 2px solid var(--gold); }
-        .card-top h3 { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
-        .card-bottom { padding: 15px 10px; position: relative; }
-        .price { font-weight: 900; font-size: 1rem; }
-        .add-ico { position: absolute; top: -20px; right: 8px; width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--navy); border: 3px solid var(--white); cursor: pointer; }
+        /* Menu Grid */
+        .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 15px; }
+        .item-card { background: var(--white); border-radius: 12px; overflow: hidden; color: var(--navy); text-align: center; }
+        .item-top { background: var(--navy); color: var(--white); padding: 30px 10px; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+        .item-top h3 { font-size: 0.85rem; font-weight: 700; }
+        .item-bottom { padding: 20px 10px; position: relative; }
+        .item-price { font-weight: 900; font-size: 1.1rem; }
+        .add-btn { position: absolute; top: -20px; right: 10px; width: 40px; height: 40px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--navy); border: 3px solid var(--white); cursor: pointer; font-size: 1.2rem; }
 
-        .form-box { background: var(--card-bg); border: 1px solid var(--gold); padding: 25px; margin: 15px; border-radius: 20px; }
-        .input-item { width: 100%; padding: 16px; background: #fff; border: none; border-radius: 8px; margin-bottom: 12px; font-weight: 700; text-align: center; font-size: 1rem; }
-        .gps-success { color: #28a745; font-size: 0.8rem; margin-bottom: 15px; display: none; font-weight: bold; text-align: center; }
+        /* Checkout */
+        .order-form { background: #0c152e; border: 1px solid var(--gold); padding: 25px; margin: 20px; border-radius: 15px; }
+        .input-g { margin-bottom: 12px; }
+        .input-g input, .input-g select { width: 100%; padding: 15px; background: #fff; border: none; border-radius: 5px; font-weight: 700; text-align: center; font-size: 1rem; }
     </style>
 </head>
 <body>
 
-    <!-- Instagram Warning -->
-    <div id="ig-warning">
-        <div class="ig-box">
-            <i class="fas fa-compass" style="font-size: 3rem; color: var(--gold); margin-bottom: 20px;"></i>
-            <h2 style="color: var(--gold)">GPS OBLIGATOIRE</h2>
-            <p>Pour commander, ouvrez ce lien dans <b>Chrome</b> ou <b>Safari</b>.<br><br>Cliquez sur (⋮) en haut à droite et choisissez "Ouvrir dans le navigateur".</p>
-            <button class="action-btn btn-gold" onclick="document.getElementById('ig-warning').style.display='none'">J'AI COMPRIS</button>
-        </div>
-    </div>
-
     <div class="header">
-        <div class="back-nav" id="back-nav" onclick="handleBack()"><i class="fas fa-chevron-left"></i></div>
-        <img src="https://i.postimg.cc/QtqZ6zFD/IMG-20260410-144111-261.jpg" class="logo-box" onclick="showSec('home')">
-        <div class="cart-status" onclick="showSec('checkout')">PANIER <span class="badge" id="cart-q">0</span></div>
+        <div class="back-btn" id="nav-back" onclick="handleBack()"><i class="fas fa-arrow-left"></i></div>
+        <img src="https://i.postimg.cc/QtqZ6zFD/IMG-20260410-144111-261.jpg" class="logo-nav" onclick="showSec('home')">
+        <div class="cart-btn" onclick="showSec('checkout')">COMMANDE <span class="cart-count" id="cart-q">0</span></div>
     </div>
 
+    <!-- Home -->
     <section id="home" class="active">
-        <div style="color: var(--gold); letter-spacing: 5px; font-size: 0.6rem; font-weight: 600;">FRUITS DE MER & GASTRONOMIE</div>
+        <div style="color: var(--gold); letter-spacing: 4px; font-size: 0.7rem; font-weight: 600;">FRUITS DE MER & GASTRONOMIE</div>
         <h1 class="hero-title">La Vague</h1>
-        <p style="color:#888; font-style:italic; margin-bottom:40px;">L'excellence de la mer dans votre assiette</p>
-        <button class="action-btn btn-gold" onclick="showSec('menu')">COMMANDER MAINTENANT</button>
-        <button class="action-btn btn-outline" onclick="showSec('menu')">VOIR LE MENU</button>
-        <div style="margin-top: 40px;">
-            <a href="tel:0795863808" style="color:white; text-decoration:none; font-weight:bold;"><i class="fas fa-phone-alt" style="color:var(--gold)"></i> 0795 86 38 08</a>
+        <p class="hero-sub">L'océan dans votre assiette — 海的味道</p>
+        <div class="contact-card">
+            <a href="tel:0795863808"><i class="fas fa-phone-alt"></i> 0795 86 38 08</a>
+            <a href="https://maps.google.com/?q=Restaurant+la+vague+Sidi+Yahia" target="_blank"><i class="fas fa-map-marker-alt"></i> SIDI YAHIA, ALGER</a>
         </div>
+        <button class="main-btn btn-gold" onclick="showSec('menu')">COMMANDER MAINTENANT</button>
+        <button class="main-btn btn-outline" onclick="showSec('menu')">VOIR LE MENU</button>
     </section>
 
+    <!-- Menu -->
     <section id="menu">
-        <div class="cat-bar">
-            <div class="chip active" onclick="load('FROID', this)">ENTRÉE FROIDE</div>
-            <div class="chip" onclick="load('CHAUD', this)">ENTRÉE CHAUDE</div>
-            <div class="chip" onclick="load('PLATS', this)">LES PLATS</div>
-            <div class="chip" onclick="load('SAUCE', this)">SAUCES/PÂTES</div>
-            <div class="chip" onclick="load('PAELLA', this)">PAËLLA/TRAD</div>
-            <div class="chip" onclick="load('SNACK', this)">BURGER/BOX</div>
-            <div class="chip" onclick="load('SUPP', this)">SUPPLÉMENTS</div>
-            <div class="chip" onclick="load('DESSERT', this)">DESSERTS/DRINKS</div>
+        <div class="category-chips">
+            <div class="chip active" onclick="loadMenu('FROID', this)">ENTRÉE FROIDE</div>
+            <div class="chip" onclick="loadMenu('CHAUD', this)">ENTRÉE CHAUDE</div>
+            <div class="chip" onclick="loadMenu('GRATIN', this)">GRATIN</div>
+            <div class="chip" onclick="loadMenu('PLATS', this)">LES PLATS</div>
+            <div class="chip" onclick="loadMenu('SAUCE', this)">PLATS EN SAUCE</div>
+            <div class="chip" onclick="loadMenu('PAELLA', this)">LA PAELLA</div>
+            <div class="chip" onclick="loadMenu('FAST', this)">SNACK/BOX</div>
         </div>
-        <div class="grid" id="menu-grid"></div>
+        <div class="menu-grid" id="menu-box"></div>
     </section>
 
+    <!-- Checkout -->
     <section id="checkout">
-        <div class="form-box">
-            <h2 style="text-align:center; color:var(--gold); margin-bottom:20px; font-family:'Playfair Display'">Validation</h2>
-            <div style="display:flex; justify-content:space-between; padding:15px; border:1px solid var(--gold); margin-bottom:20px; font-weight:800; background:rgba(0,0,0,0.3)">
+        <div class="order-form">
+            <h2 style="text-align: center; color: var(--gold); margin-bottom: 25px; font-style: italic; font-family: 'Playfair Display';">Votre Panier</h2>
+            <div style="display:flex; justify-content:space-between; padding:15px; border:1px dashed var(--gold); margin-bottom:20px; font-weight:800;">
                 <span>TOTAL:</span><span id="final-t" style="color:var(--gold)">0 DA</span>
             </div>
-            <input type="text" id="in-name" class="input-item" placeholder="Nom Complet">
-            <input type="tel" id="in-phone" class="input-item" placeholder="Téléphone">
-            <select id="in-loc" class="input-item">
-                <option value="">Choisir Commune</option>
-                <option>Sidi Yahia</option><option>Hydra</option><option>Bir Mourad Rais</option><option>El Biar</option><option>Ben Aknoun</option><option>Dely Ibrahim</option><option>Cheraga</option><option>Ouled Fayet</option><option>Draria</option><option>Alger Centre</option>
-            </select>
-            <button class="action-btn btn-outline" style="width:100%" onclick="getGPS()" id="gps-btn">FIXER MON GPS 📍</button>
-            <div id="gps-msg" class="gps-success">GPS FIXÉ AVEC SUCCÈS ✅</div>
-            <button class="action-btn btn-gold" style="width:100%; display:none" id="send-btn" onclick="send()">VALIDER LA COMMANDE 🚀</button>
+            <div class="input-g"><input type="text" id="name-f" placeholder="Nom Complet"></div>
+            <div class="input-g"><input type="tel" id="phone-f" placeholder="Téléphone"></div>
+            <div class="input-g"><select id="loc-f"><option value="">Choisir la Commune</option><option>Sidi Yahia</option><option>Hydra</option><option>Bir Mourad Rais</option><option>El Biar</option><option>Cheraga</option><option>Draria</option></select></div>
+            <button class="main-btn btn-outline" style="width:100%" onclick="getGPS()" id="gps-st">FIXER MON GPS 📍</button>
+            <button class="main-btn btn-gold" style="width:100%; margin-top:20px;" onclick="sendOrder()">VALIDER 🚀</button>
         </div>
     </section>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <script>
-        const config = { apiKey: "AIzaSyDc3TEyLFxWUl_XmF0m_lS_v6eG_v0", authDomain: "la-vague-b1984.firebaseapp.com", databaseURL: "https://la-vague-b1984-default-rtdb.europe-west1.firebasedatabase.app/", projectId: "la-vague-b1984" };
-        firebase.initializeApp(config); const db = firebase.database();
+        const firebaseConfig = { apiKey: "AIzaSyDc3TEyLFxWUl_XmF0m_lS_v6eG_v0", authDomain: "la-vague-b1984.firebaseapp.com", databaseURL: "https://la-vague-b1984-default-rtdb.europe-west1.firebasedatabase.app/", projectId: "la-vague-b1984" };
+        firebase.initializeApp(firebaseConfig); const db = firebase.database();
 
-        if(navigator.userAgent.includes("Instagram")) document.getElementById('ig-warning').style.display='block';
-
-        const menu = [
-            // FROID
-            {c:'FROID', n:'Salade Poulpe', p:700}, {c:'FROID', n:'Salade Thon', p:400}, {c:'FROID', n:'Salade Variée', p:400}, {c:'FROID', n:'Salade César', p:950}, {c:'FROID', n:'Salade Bourata', p:1200}, {c:'FROID', n:'Salade Mozzarella', p:1200}, {c:'FROID', n:'Salade La Vague (Chef)', p:1300}, {c:'FROID', n:'Hmise', p:300}, {c:'FROID', n:'Tartare de Dorade', p:1200}, {c:'FROID', n:'Tartare de Saumon', p:1400},
-            // CHAUD
-            {c:'CHAUD', n:'Soupe de Poissons', p:500}, {c:'CHAUD', n:'Omelettes Crevettes', p:1000}, {c:'CHAUD', n:'Loubia Fruits Mer', p:600}, {c:'CHAUD', n:'Loubia Crevettes', p:600}, {c:'CHAUD', n:'Bourek Poissons', p:250}, {c:'CHAUD', n:'Bourek Crevettes', p:250}, {c:'CHAUD', n:'Brique Poissons', p:500}, {c:'CHAUD', n:'Brique Crevettes', p:500}, {c:'CHAUD', n:'Gratin Crevettes', p:1100}, {c:'CHAUD', n:'Gratin Poissons', p:1000},
-            // PLATS
-            {c:'PLATS', n:'Sardine', p:600}, {c:'PLATS', n:'Dorade', p:1400}, {c:'PLATS', n:'Espadon', p:2300}, {c:'PLATS', n:'Rouget et Merlan', p:1600}, {c:'PLATS', n:'Loupe de Mer', p:1500}, {c:'PLATS', n:'Crevette Royale', p:2500}, {c:'PLATS', n:'Mérou', p:2800}, {c:'PLATS', n:'Pageot', p:1300}, {c:'PLATS', n:'Chien de Mer', p:1800}, {c:'PLATS', n:'La Lotte', p:1600}, {c:'PLATS', n:'Calamar', p:2200}, {c:'PLATS', n:'Saumon', p:3000}, {c:'PLATS', n:'Pagre', p:2800},
-            // SAUCES / PATTES
-            {c:'SAUCE', n:'Chtitha Sardine', p:600}, {c:'SAUCE', n:'Sépia en Sauce', p:1700}, {c:'SAUCE', n:'Calamars Farci', p:2500}, {c:'SAUCE', n:'Saumon à la Crème', p:3300}, {c:'SAUCE', n:'Crevette en Sauce', p:2600}, {c:'SAUCE', n:'Spaghetti Crevettes', p:1600}, {c:'SAUCE', n:'Spaghetti Fruits Mer', p:1600}, {c:'SAUCE', n:'Tagliatelle Fruits Mer', p:1800}, {c:'SAUCE', n:'Tagliatelle Saumon', p:1950}, {c:'SAUCE', n:'Plat Varié 1P', p:1300}, {c:'SAUCE', n:'Plat Varié 2P', p:2500},
-            // PAELLA / TRAD
-            {c:'PAELLA', n:'Paëlla 2 Pers', p:4000}, {c:'PAELLA', n:'Paëlla 4 Pers', p:7000}, {c:'PAELLA', n:'Paëlla 5 Pers', p:10000}, {c:'PAELLA', n:'Paëlla 8 Pers', p:14000}, {c:'PAELLA', n:'Paëlla 10 Pers', p:16000}, {c:'PAELLA', n:'Couscous Mirou', p:3500}, {c:'PAELLA', n:'Couscous Espadon', p:3500}, {c:'PAELLA', n:'Couscous Dorade', p:3500},
-            // SNACKS
-            {c:'SNACK', n:'Burger Poisson', p:700}, {c:'SNACK', n:'Burger Crevette', p:700}, {c:'SNACK', n:'Sandwich Poisson', p:750}, {c:'SNACK', n:'Sandwich Crevette', p:800}, {c:'SNACK', n:'Sandwich Dorade/Loup', p:900}, {c:'SNACK', n:'Box Poissons', p:1300}, {c:'SNACK', n:'Box Crevettes', p:1600}, {c:'SNACK', n:'Arancini Crevettes', p:1200},
-            // SUPP / FROMAGE
-            {c:'SUPP', n:'Riz', p:300}, {c:'SUPP', n:'Riz Noir', p:400}, {c:'SUPP', n:'Légumes', p:350}, {c:'SUPP', n:'Frite', p:250}, {c:'SUPP', n:'Gruyère/Gouda', p:200}, {c:'SUPP', n:'Camembert', p:200}, {c:'SUPP', n:'Assiette Olive', p:300}, {c:'SUPP', n:'Assiette Fromage', p:700},
-            // DESSERT
-            {c:'DESSERT', n:'Crème Brulé', p:350}, {c:'DESSERT', n:'Noga Glacé', p:750}, {c:'DESSERT', n:'Tiramisu', p:500}, {c:'DESSERT', n:'Tarte au Citron', p:350}, {c:'DESSERT', n:'Éclaire', p:200}, {c:'DESSERT', n:'Flan Caramel', p:400}, {c:'DESSERT', n:'Fondant', p:400}, {c:'DESSERT', n:'Jus Vague', p:200}, {c:'DESSERT', n:'Soda Canette', p:150}, {c:'DESSERT', n:'Eau Petite', p:50}
+        const menuData = [
+            { c:'FROID', n:'Salade Poulpe', p:700 }, { c:'FROID', n:'Salade César', p:950 }, { c:'FROID', n:'Salade Bourata', p:1200 }, { c:'FROID', n:'Salade Mozzarella', p:1200 }, { c:'FROID', n:'Tartare Saumon', p:1400 }, { c:'FROID', n:'Hmise', p:300 },
+            { c:'CHAUD', n:'Soupe Poissons', p:500 }, { c:'CHAUD', n:'Omelette Crevettes', p:1000 }, { c:'CHAUD', n:'Bourek Poissons', p:250 }, { c:'CHAUD', n:'Brique Crevettes', p:500 },
+            { c:'GRATIN', n:'Gratin Crevettes', p:1100 }, { c:'GRATIN', n:'Gratin Poissons', p:1000 },
+            { c:'PLATS', n:'Sardine', p:600 }, { c:'PLATS', n:'Dorade', p:1400 }, { c:'PLATS', n:'Espadon', p:2300 }, { c:'PLATS', n:'Mérou', p:2800 }, { c:'PLATS', n:'Saumon', p:3000 }, { c:'PLATS', n:'Rouget', p:1600 },
+            { c:'SAUCE', n:'Sepia Sauce', p:1700 }, { c:'SAUCE', n:'Calamars Farci', p:2500 }, { c:'SAUCE', n:'Saumon Crème', p:3300 },
+            { c:'PAELLA', n:'Paella 2P', p:4000 }, { c:'PAELLA', n:'Paella 5P', p:10000 }, { c:'PAELLA', n:'Paella 10P', p:16000 },
+            { c:'FAST', n:'Burger Poisson', p:700 }, { c:'FAST', n:'Sandwich Poisson', p:750 }, { c:'FAST', n:'Box Poissons', p:1300 }
         ];
 
-        let cart = [], total = 0, coords = null, cur = 'home';
-        function showSec(id){ document.querySelectorAll('section').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); cur=id; document.getElementById('back-nav').style.visibility=(id==='home'?'hidden':'visible'); window.scrollTo(0,0); }
-        function handleBack(){ if(cur==='menu') showSec('home'); else if(cur==='checkout') showSec('menu'); }
-        function load(c, el){ document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active')); el.classList.add('active'); const g = document.getElementById('menu-grid'); g.innerHTML=''; menu.filter(i=>i.c===c).forEach(item=>{ g.innerHTML+=`<div class="card"><div class="card-top"><h3>${item.n}</h3></div><div class="card-bottom"><span class="price">${item.p} DA</span><div class="add-ico" onclick="add('${item.n}',${item.p})"><i class="fas fa-plus"></i></div></div></div>`; }); }
-        function add(n,p){ cart.push(n); total+=p; document.getElementById('cart-q').innerText=cart.length; document.getElementById('final-t').innerText=total+" DA"; }
-        function getGPS(){ navigator.geolocation.getCurrentPosition(p=>{ coords=p.coords.latitude+","+p.coords.longitude; document.getElementById('gps-btn').style.display="none"; document.getElementById('gps-msg').style.display="block"; document.getElementById('send-btn').style.display="block"; }, ()=>{ alert("Activez le GPS !"); }, {enableHighAccuracy: true}); }
-        function send(){ const n=document.getElementById('in-name').value, ph=document.getElementById('in-phone').value, l=document.getElementById('in-loc').value; if(!n||!ph||!l||cart.length===0||!coords) return alert("Infos manquantes !"); db.ref('orders').push({ name:n, phone:ph, commune:l, items:cart.join(", "), total:total, gps:coords, time:new Date().toLocaleTimeString() }).then(()=>{ alert("Succès! 🚀"); location.reload(); }); }
-        load('FROID', document.querySelector('.chip'));
+        let cart = [], total = 0, coords = null, currentS = 'home';
+
+        function showSec(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active'); currentS = id;
+            document.getElementById('nav-back').style.visibility = (id === 'home') ? 'hidden' : 'visible'; window.scrollTo(0,0);
+        }
+
+        function handleBack() { if(currentS === 'menu') showSec('home'); else if(currentS === 'checkout') showSec('menu'); }
+
+        function loadMenu(c, el) {
+            document.querySelectorAll('.chip').forEach(x => x.classList.remove('active')); el.classList.add('active');
+            const box = document.getElementById('menu-box'); box.innerHTML = '';
+            menuData.filter(i => i.c === c).forEach(item => {
+                box.innerHTML += `<div class="item-card"><div class="item-top"><h3>${item.n}</h3></div><div class="item-bottom"><span class="item-price">${item.p} DA</span><div class="add-btn" onclick="addCart('${item.n}',${item.p})">+</div></div></div>`;
+            });
+        }
+
+        function addCart(n,p) { cart.push(n); total += p; document.getElementById('cart-q').innerText = cart.length; document.getElementById('final-t').innerText = total + " DA"; }
+
+        function getGPS() {
+            navigator.geolocation.getCurrentPosition(p => { 
+                coords = p.coords.latitude + "," + p.coords.longitude; 
+                document.getElementById('gps-st').innerText = "GPS FIXÉ ✅"; document.getElementById('gps-st').style.color = "#28a745";
+            }, () => alert("Activez votre GPS!"));
+        }
+
+        function sendOrder() {
+            const n = document.getElementById('name-f').value, ph = document.getElementById('phone-f').value, l = document.getElementById('loc-f').value;
+            if(!n || !ph || !l || !coords) return alert("Complétez vos infos et fixez le GPS!");
+            db.ref('orders').push({ name:n, phone:ph, commune:l, items:cart.join(", "), total:total, gps:coords, time:new Date().toLocaleTimeString() })
+            .then(() => { alert("Succès! 🚀"); location.reload(); });
+        }
+        loadMenu('FROID', document.querySelector('.chip'));
     </script>
 </body>
-                                                                                     </html>
+</html>
