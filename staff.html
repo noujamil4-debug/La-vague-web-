@@ -3,21 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Vague Staff</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@900&display=swap" rel="stylesheet">
+    <title>La Vague - Dashboard Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background:#050a18; color:#fff; font-family:'Tajawal',sans-serif; padding:20px; }
-        .header { display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #00f2ff; padding-bottom:15px; margin-bottom:20px; }
-        .ticket { background:#121b2e; border-radius:20px; padding:25px; border-left:8px solid #00f2ff; margin-bottom:25px; position:relative; }
-        .gps-btn { display:block; padding:12px; background:#0051ff; color:#fff; text-decoration:none; text-align:center; border-radius:10px; margin:15px 0; font-weight:900; border:1px solid #00f2ff;}
-        .done-btn { width:100%; padding:15px; background:#22c55e; color:#fff; border:none; border-radius:12px; font-weight:900; font-size:1.3rem; cursor:pointer; }
+        :root { --navy: #0a1128; --gold: #c5a059; --white: #ffffff; --red: #ff4444; --green: #28a745; }
+        body { background: var(--navy); color: var(--white); font-family: 'Poppins', sans-serif; padding: 20px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); padding-bottom: 15px; margin-bottom: 25px; }
+        .owner-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        /* تذكرة الطلب */
+        .ticket { background: var(--white); color: var(--navy); border-radius: 15px; padding: 20px; margin-bottom: 20px; position: relative; border-right: 10px solid var(--gold); animation: slideIn 0.3s; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .delete-btn { position: absolute; top: 15px; left: 15px; color: var(--red); cursor: pointer; font-size: 1.2rem; }
+        .ticket h2 { margin: 0 0 10px 0; font-family: 'Playfair Display'; }
+        .items-box { background: #f4f4f4; padding: 12px; border-radius: 8px; margin: 10px 0; font-size: 0.9rem; }
+        .total-price { font-size: 1.8rem; font-weight: 800; color: var(--gold); margin: 10px 0; }
+        
+        .btn-gps { display: block; background: #0051ff; color: #fff; text-decoration: none; text-align: center; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-weight: bold; }
+        .btn-done { width: 100%; background: var(--green); color: #fff; border: none; padding: 15px; border-radius: 8px; font-weight: 900; cursor: pointer; font-size: 1.1rem; }
+
+        /* لوحة صاحب المطعم */
+        #owner-section { display: none; background: #111e3d; border: 2px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 30px; text-align: center; }
+        .profit-box { font-size: 2.5rem; color: var(--gold); font-weight: 900; margin: 20px 0; }
+
+        /* شاشة التفعيل */
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; display: flex; align-items: center; justify-content: center; color: var(--gold); cursor: pointer; }
     </style>
 </head>
 <body>
+
+    <div id="overlay" onclick="this.style.display='none'; document.getElementById('bell').play();">
+        <h1 style="text-align:center;">إضغط لتفعيل النظام 🔔</h1>
+    </div>
+
     <div class="header">
-        <h1 style="color:#00f2ff; font-weight:900;">LA VAGUE <span style="color:#ff3b3b">STAFF</span></h1>
-        <button onclick="playBell(1)" style="background:#f1c40f; padding:10px; border-radius:10px; border:none; font-weight:900;">🔔 جرس</button>
+        <h1 style="font-family: 'Playfair Display'; color: var(--gold); margin: 0;">STAFF DASHBOARD</h1>
+        <button class="owner-btn" onclick="openOwnerMode()">صاحب المطعم 👑</button>
+    </div>
+
+    <!-- قسم صاحب المطعم (الأرباح) -->
+    <div id="owner-section">
+        <h2 style="color: var(--gold);">إحصائيات الأرباح الشهيرة</h2>
+        <div class="profit-box" id="monthly-profit">0 DA</div>
+        <button onclick="this.parentElement.style.display='none'" style="background:var(--red); color:white; border:none; padding:5px 15px; border-radius:5px; cursor:pointer;">إغلاق</button>
     </div>
 
     <audio id="bell"><source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
@@ -25,6 +56,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDc3TEyLFxWUl_XmF0m_lS_v6eG_v0",
@@ -36,27 +68,72 @@
         const db = firebase.database();
         const bell = document.getElementById('bell');
 
-        function playBell(t){ let c=0; const r=()=>{ if(c<t){ bell.play(); c++; } }; bell.onended=()=>setTimeout(r,500); r(); }
+        // استقبال الطلبات
+        db.ref('orders').on('child_added', snap => {
+            const val = snap.val();
+            
+            // جرس 3 مرات
+            let r = 0;
+            const ring = setInterval(() => {
+                bell.currentTime = 0; bell.play();
+                r++; if(r >= 3) clearInterval(ring);
+            }, 1200);
 
-        db.ref('orders').on('child_added', s => {
-            const d = s.val();
-            playBell(3); // يرن 3 مرات للطلب الجديد
-            const html = `
-                <div class="ticket" id="${s.key}">
-                    <h2 style="color:#00f2ff">زبون: ${d.name}</h2>
-                    <p style="font-size:1.3rem; margin:10px 0;">الهاتف: <span style="direction:ltr; display:inline-block">${d.phone}</span></p>
-                    <p>المنطقة: ${d.location}</p>
-                    <div style="background:rgba(0,0,0,0.3); padding:15px; margin:15px 0; border-radius:10px; border:1px dashed #00f2ff">الطلبات: ${d.items}</div>
-                    <h3 style="color:#00f2ff; margin-bottom:15px; font-size:1.8rem;">المجموع: ${d.total} DA</h3>
-                    <a href="https://www.google.com/maps?q=${d.gps}" target="_blank" class="gps-btn">فتح الموقع GPS <i class="fas fa-location-arrow"></i></a>
-                    <button class="done-btn" onclick="finish('${s.key}')">تم التجهيز ✓</button>
+            const card = `
+                <div class="ticket" id="${snap.key}">
+                    <div class="delete-btn" onclick="deleteOrder('${snap.key}')"><i class="fas fa-trash"></i></div>
+                    <h2>الزبون: ${val.name}</h2>
+                    <p style="font-weight:bold; color:var(--gold)">📞 ${val.phone}</p>
+                    <p>📍 البلدية: ${val.commune}</p>
+                    <div class="items-box"><b>الطلب:</b><br>${val.items}</div>
+                    <div class="total-price">${val.total} DA</div>
+                    <a href="https://www.google.com/maps?q=${val.gps}" target="_blank" class="btn-gps">موقع الزبون GPS 📍</a>
+                    <button class="btn-done" onclick="completeOrder('${snap.key}', ${val.total})">تم التجهيز ✓</button>
                 </div>`;
-            document.getElementById('orders-list').insertAdjacentHTML('afterbegin', html);
+            document.getElementById('orders-list').insertAdjacentHTML('afterbegin', card);
         });
 
-        function finish(id) {
-            db.ref('orders/'+id).remove();
-            document.getElementById(id).remove();
+        // إتمام الطلب واحتساب الأرباح
+        function completeOrder(id, amount) {
+            // إضافة السعر للأرباح في قاعدة البيانات
+            db.ref('profits').push({
+                amount: amount,
+                date: new Date().toISOString()
+            }).then(() => {
+                db.ref('orders/' + id).remove();
+                document.getElementById(id).remove();
+                alert("تم التجهيز واحتساب الربح ✅");
+            });
+        }
+
+        // مسح الطلب دون احتساب ربح
+        function deleteOrder(id) {
+            if(confirm("هل تريد مسح هذه الطلبية نهائياً؟")) {
+                db.ref('orders/' + id).remove();
+                document.getElementById(id).remove();
+            }
+        }
+
+        // فتح وضع صاحب المطعم
+        function openOwnerMode() {
+            let pass = prompt("الرجاء إدخال كود الدخول:");
+            if(pass === "0000") {
+                document.getElementById('owner-section').style.display = 'block';
+                calculateProfits();
+            } else {
+                alert("كود خاطئ!");
+            }
+        }
+
+        // حساب الأرباح من قاعدة البيانات
+        function calculateProfits() {
+            db.ref('profits').once('value', snap => {
+                let totalProfit = 0;
+                snap.forEach(child => {
+                    totalProfit += child.val().amount;
+                });
+                document.getElementById('monthly-profit').innerText = totalProfit + " DA";
+            });
         }
     </script>
 </body>
